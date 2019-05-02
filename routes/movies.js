@@ -1,5 +1,7 @@
 const errors = require('restify-errors')
+const rjwt = require('restify-jwt-community')
 const Movie = require('../models/Movie')
+const config = require('../config')
 
 module.exports = server => {
   server.get('/movies', async (req, res, next) => {
@@ -12,7 +14,7 @@ module.exports = server => {
     }
   })
 
-  server.get('/movies/:id', async (req, res, next) => {
+  server.get('/movies/:id', rjwt({ secret: config.JWT_SECRET }), async (req, res, next) => {
     try {
       const movie = await Movie.findById(req.params.id)
       res.send(movie)
