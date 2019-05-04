@@ -6,16 +6,16 @@ const auth = require('../auth')
 const config = require('../config')
 
 module.exports = server => {
-  server.post('/register', async (req, res, next) => {
+  server.post('/register', async (req, res) => {
     if (!req.is('application/json')) {
-      return next(new errors.InvalidContentError("Expected 'application/json"))
+      return new errors.InvalidContentError("Expected 'application/json")
     }
 
     const { email, password } = req.body
 
     if (!email || !password) {
       console.log( email, password )
-      return next(new errors.InvalidContentError("All fields must be filled"))
+      return new errors.InvalidContentError("All fields must be filled")
     }
 
     const user = new User({
@@ -30,16 +30,16 @@ module.exports = server => {
         try {
           await user.save()
           res.send(201)
-          next()
         } catch (e) {
-          return next(new errors.InternalError(err.massage))
+          return new errors.InternalError(err.massage)
         }
       })
     })
   })
 
-  server.post('/auth', async (req, res, next) => {
+  server.post('/auth', async (req, res) => {
     const { email, password } = req.body
+    console.log('wiofejwfuwe', email)
 
     try {
       const user = await auth.authenticate(email, password)
@@ -51,10 +51,8 @@ module.exports = server => {
       const { iat, exp } = jwt.decode(token)
 
       res.send({ iat, exp, token })
-
-      next()
     } catch (e) {
-      return next(new errors.UnauthorizedError(e))
+      return new errors.UnauthorizedError(e)
     }
   })
 }
