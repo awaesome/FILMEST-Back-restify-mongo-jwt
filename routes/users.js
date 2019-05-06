@@ -14,7 +14,6 @@ module.exports = server => {
     const { email, password } = req.body
 
     if (!email || !password) {
-      console.log( email, password )
       return new errors.InvalidContentError("All fields must be filled")
     }
 
@@ -39,7 +38,6 @@ module.exports = server => {
 
   server.post('/auth', async (req, res) => {
     const { email, password } = req.body
-    console.log('wiofejwfuwe', email)
 
     try {
       const user = await auth.authenticate(email, password)

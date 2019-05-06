@@ -7,8 +7,6 @@ exports.authenticate = (email, password) => {
     try {
       const user = await User.findOne({email})
 
-
-      console.log('ololo', user, email)
       bcrypt.compare(password, user.password, (err, isMatch) => {
         if(err) throw err
 
