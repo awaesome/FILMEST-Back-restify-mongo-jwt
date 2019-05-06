@@ -14,7 +14,6 @@ module.exports = server => {
     const { email, password } = req.body
 
     if (!email || !password) {
-      console.log( email, password )
       return new errors.InvalidContentError("All fields must be filled")
     }
 
